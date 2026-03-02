@@ -1,0 +1,495 @@
+<robot name="dog">
+
+  <!-- ==================== 材质定义 ==================== -->
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.75 0.75 0.75 1"/>
+  </material>
+  <material name="dark_grey">
+    <color rgba="0.3 0.3 0.3 1"/>
+  </material>
+
+  <!-- ==================== Base Link ==================== -->
+  <link name="base_link">
+    <inertial>
+      <origin xyz="0 -0.0198 0.0689" rpy="0 0 0"/>
+      <mass value="3.05"/>
+      <inertia ixx="0.0144" ixy="0" ixz="0" iyy="0.006" iyz="0" izz="0.014"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/base_link.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/base_link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ==================== Radar Link (Fixed) ==================== -->
+  <link name="Radar_Link">
+    <inertial>
+      <origin xyz="0 0 -0.277" rpy="0 0 0"/>
+      <mass value="0.5"/>
+      <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/Radar_Link.STL"/>
+      </geometry>
+      <material name="dark_grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/Radar_Link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Radar_Joint" type="fixed">
+    <origin xyz="0 -0.1565 0.161" rpy="3.14159 -0.5236 1.5708"/>
+    <parent link="base_link"/>
+    <child link="Radar_Link"/>
+  </joint>
+
+  <!-- ==================== Camera Link (Fixed) ==================== -->
+  <link name="Camera_Link">
+    <inertial>
+      <origin xyz="0 0 0.0126" rpy="0 0 0"/>
+      <mass value="0.05"/>
+      <inertia ixx="3.15e-05" ixy="0" ixz="0" iyy="5e-06" iyz="0" izz="3.12e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/Camera_Link.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/Camera_Link.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="Camera_Joint" type="fixed">
+    <origin xyz="0 -0.2816 0.0664" rpy="1.8326 0 0"/>
+    <parent link="base_link"/>
+    <child link="Camera_Link"/>
+  </joint>
+
+  <!-- ==================== LF (左前腿) ==================== -->
+  <link name="LF_Link_1">
+    <inertial>
+      <origin xyz="0.0232 -0.0018 -0.0006" rpy="0 0 0"/>
+      <mass value="0.192"/>
+      <inertia ixx="0.000144" ixy="0" ixz="0" iyy="0.000158" iyz="0" izz="7.07e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LF_Link_1.STL"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LF_Link_1.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LF_Joint_1" type="revolute">
+    <origin xyz="0.08 -0.184 0.065" rpy="0 0 -1.5708"/>
+    <parent link="base_link"/>
+    <child link="LF_Link_1"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1" upper="1" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <link name="LF_Link_2">
+    <inertial>
+      <origin xyz="0.0192 0.0725 -0.0402" rpy="0 0 0"/>
+      <mass value="0.438"/>
+      <inertia ixx="0.00117" ixy="0" ixz="0" iyy="0.00142" iyz="0" izz="0.000335"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LF_Link_2.STL"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LF_Link_2.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LF_Joint_2" type="revolute">
+    <origin xyz="0.065 0.0181 0.0021" rpy="0 0 0"/>
+    <parent link="LF_Link_1"/>
+    <child link="LF_Link_2"/>
+    <axis xyz="0 0.9934 0.1151"/>
+    <limit lower="-1.6" upper="3.5" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <link name="LF_Link_3">
+    <inertial>
+      <origin xyz="0.0771 -0.0153 0.1319" rpy="0 0 0"/>
+      <mass value="0.277"/>
+      <inertia ixx="0.000552" ixy="0" ixz="0" iyy="0.000739" iyz="0" izz="0.00021"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LF_Link_3.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LF_Link_3.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LF_Joint_3" type="revolute">
+    <origin xyz="0.10845 0.1048 -0.19204" rpy="0 0 0"/>
+    <parent link="LF_Link_2"/>
+    <child link="LF_Link_3"/>
+    <axis xyz="0 -0.9934 -0.1151"/>
+    <limit lower="-1.5" upper="0.5" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <!-- ==================== RF (右前腿) ==================== -->
+  <link name="RF_Link_1">
+    <inertial>
+      <origin xyz="0.0232 0.0016 -0.0001" rpy="0 0 0"/>
+      <mass value="0.192"/>
+      <inertia ixx="0.000144" ixy="0" ixz="0" iyy="0.000159" iyz="0" izz="6.96e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RF_Link_1.STL"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RF_Link_1.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="RF_Joint_1" type="revolute">
+    <origin xyz="-0.08 -0.184 0.065" rpy="0 0 -1.5708"/>
+    <parent link="base_link"/>
+    <child link="RF_Link_1"/>
+    <axis xyz="1 0 0"/>
+    <limit lower="-1" upper="1" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <link name="RF_Link_2">
+    <inertial>
+      <origin xyz="0.012 -0.0656 -0.0529" rpy="0 0 0"/>
+      <mass value="0.438"/>
+      <inertia ixx="0.00128" ixy="0" ixz="0" iyy="0.00144" iyz="0" izz="0.000209"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RF_Link_2.STL"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RF_Link_2.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="RF_Joint_2" type="revolute">
+    <origin xyz="0.065 -0.0182 -0.0006" rpy="0 0 0"/>
+    <parent link="RF_Link_1"/>
+    <child link="RF_Link_2"/>
+    <axis xyz="0 -0.9994 -0.0344"/>
+    <limit lower="-1.6" upper="3.5" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <link name="RF_Link_3">
+    <inertial>
+      <origin xyz="0.0997 -0.004 0.1168" rpy="0 0 0"/>
+      <mass value="0.277"/>
+      <inertia ixx="0.000444" ixy="0" ixz="0" iyy="0.000746" iyz="0" izz="0.000311"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RF_Link_3.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RF_Link_3.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="RF_Joint_3" type="revolute">
+    <origin xyz="0.0779 -0.0745 -0.2191" rpy="0 0 0"/>
+    <parent link="RF_Link_2"/>
+    <child link="RF_Link_3"/>
+    <axis xyz="0 -0.9994 -0.0344"/>
+    <limit lower="-1.5" upper="0.5" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <!-- ==================== LB (左后腿) ==================== -->
+  <link name="LB_Link_1">
+    <inertial>
+      <origin xyz="-0.0232 -0.0016 -0.0003" rpy="0 0 0"/>
+      <mass value="0.192"/>
+      <inertia ixx="0.000144" ixy="0" ixz="0" iyy="0.000159" iyz="0" izz="6.99e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LB_Link_1.STL"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LB_Link_1.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LB_Joint_1" type="revolute">
+    <origin xyz="0.08 0.184 0.065" rpy="0 0 -1.5708"/>
+    <parent link="base_link"/>
+    <child link="LB_Link_1"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="-1" upper="1" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <link name="LB_Link_2">
+    <inertial>
+      <origin xyz="-0.0306 0.0699 -0.0377" rpy="0 0 0"/>
+      <mass value="0.438"/>
+      <inertia ixx="0.000963" ixy="0" ixz="0" iyy="0.00143" iyz="0" izz="0.000529"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LB_Link_2.STL"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LB_Link_2.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LB_Joint_2" type="revolute">
+    <origin xyz="-0.065 0.0182 0.0012" rpy="0 0 0"/>
+    <parent link="LB_Link_1"/>
+    <child link="LB_Link_2"/>
+    <axis xyz="0 0.998 0.0632"/>
+    <limit lower="-1.6" upper="3.5" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <link name="LB_Link_3">
+    <inertial>
+      <origin xyz="0.1535 -0.0003 0.0052" rpy="0 0 0"/>
+      <mass value="0.277"/>
+      <inertia ixx="5.4e-05" ixy="0" ixz="0" iyy="0.000746" iyz="0" izz="0.0007"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LB_Link_3.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/LB_Link_3.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="LB_Joint_3" type="revolute">
+    <origin xyz="-0.1143 0.0945 -0.194" rpy="0 0 0"/>
+    <parent link="LB_Link_2"/>
+    <child link="LB_Link_3"/>
+    <axis xyz="0 -0.998 -0.0632"/>
+    <limit lower="-1.5" upper="0.5" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <!-- ==================== RB (右后腿) ==================== -->
+  <link name="RB_Link_1">
+    <inertial>
+      <origin xyz="-0.0232 0.0018 -0.0004" rpy="0 0 0"/>
+      <mass value="0.192"/>
+      <inertia ixx="0.000144" ixy="0" ixz="0" iyy="0.000159" iyz="0" izz="6.95e-05"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RB_Link_1.STL"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RB_Link_1.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- ⭐ 修正:  Rb_Joint_1 -> RB_Joint_1 -->
+  <joint name="RB_Joint_1" type="revolute">
+    <origin xyz="-0.08 0.184 0.065" rpy="0 0 -1.5708"/>
+    <parent link="base_link"/>
+    <child link="RB_Link_1"/>
+    <axis xyz="-1 0 0"/>
+    <limit lower="-1" upper="1" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <link name="RB_Link_2">
+    <inertial>
+      <origin xyz="-0.0422 -0.0674 -0.0312" rpy="0 0 0"/>
+      <mass value="0.438"/>
+      <inertia ixx="0.000604" ixy="0" ixz="0" iyy="0.00144" iyz="0" izz="0.000884"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RB_Link_2.STL"/>
+      </geometry>
+      <material name="grey"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RB_Link_2.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="RB_Joint_2" type="revolute">
+    <origin xyz="-0.065 -0.0183 0" rpy="0 0 0"/>
+    <parent link="RB_Link_1"/>
+    <child link="RB_Link_2"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.6" upper="3.5" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <link name="RB_Link_3">
+    <inertial>
+      <origin xyz="0.1468 0 -0.0452" rpy="0 0 0"/>
+      <mass value="0.277"/>
+      <inertia ixx="9.96e-05" ixy="0" ixz="0" iyy="0.000747" iyz="0" izz="0.000654"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RB_Link_3.STL"/>
+      </geometry>
+      <material name="white"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://show_dog/meshes/RB_Link_3.STL"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="RB_Joint_3" type="revolute">
+    <origin xyz="-0.1678 -0.082 -0.1573" rpy="0 0 0"/>
+    <parent link="RB_Link_2"/>
+    <child link="RB_Link_3"/>
+    <axis xyz="0 -1 0"/>
+    <limit lower="-1.5" upper="0.5" effort="50" velocity="5"/>
+    <dynamics damping="0.5" friction="0.1"/>
+  </joint>
+
+  <!-- ==================== Gazebo 配置 ==================== -->
+  
+  <!-- 材质颜色 -->
+  <gazebo reference="base_link">
+    <material>Gazebo/White</material>
+  </gazebo>
+  <gazebo reference="Radar_Link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+  <gazebo reference="Camera_Link">
+    <material>Gazebo/White</material>
+  </gazebo>
+  
+  <gazebo reference="LF_Link_1"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="LF_Link_2"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="LF_Link_3"><material>Gazebo/White</material><mu1>1.0</mu1><mu2>1.0</mu2></gazebo>
+  
+  <gazebo reference="RF_Link_1"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="RF_Link_2"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="RF_Link_3"><material>Gazebo/White</material><mu1>1.0</mu1><mu2>1.0</mu2></gazebo>
+  
+  <gazebo reference="LB_Link_1"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="LB_Link_2"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="LB_Link_3"><material>Gazebo/White</material><mu1>1.0</mu1><mu2>1.0</mu2></gazebo>
+  
+  <gazebo reference="RB_Link_1"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="RB_Link_2"><material>Gazebo/Grey</material></gazebo>
+  <gazebo reference="RB_Link_3"><material>Gazebo/White</material><mu1>1.0</mu1><mu2>1.0</mu2></gazebo>
+
+  <!-- 关节状态发布插件 -->
+  <gazebo>
+    <plugin name="gazebo_ros_joint_state_publisher" filename="libgazebo_ros_joint_state_publisher. so">
+      <ros>
+        <namespace>/</namespace>
+        <remapping>joint_states: =joint_states</remapping>
+      </ros>
+      <update_rate>50</update_rate>
+      <joint_name>LF_Joint_1</joint_name>
+      <joint_name>LF_Joint_2</joint_name>
+      <joint_name>LF_Joint_3</joint_name>
+      <joint_name>RF_Joint_1</joint_name>
+      <joint_name>RF_Joint_2</joint_name>
+      <joint_name>RF_Joint_3</joint_name>
+      <joint_name>LB_Joint_1</joint_name>
+      <joint_name>LB_Joint_2</joint_name>
+      <joint_name>LB_Joint_3</joint_name>
+      <joint_name>RB_Joint_1</joint_name>
+      <joint_name>RB_Joint_2</joint_name>
+      <joint_name>RB_Joint_3</joint_name>
+    </plugin>
+  </gazebo>
+
+</robot>
