@@ -1,0 +1,22 @@
+/patrol_node:
+  ros__parameters:
+    initial_point:
+    - 0.0
+    - 0.0
+    - 0.0
+    nav2_action: |
+      - goal_points: [1.0, -2.0]
+
+      - yaw: 3.14
+
+      - stop_time: 5.0
+
+      - goal_points: [-5.0, 0.0]
+
+      - stop_time: 3.0
+
+      - goal_points: [0.0, 0.0] 
+
+    
+
+    use_sim_time: false
